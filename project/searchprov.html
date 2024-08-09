@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="crossorigin="anonymous"></script> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"
+  ></script>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+    crossorigin="anonymous"
+  />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+  <script>
+    var module=angular.module("myModule",[]);
+    var controller=module.controller("myController",function($scope,$http)
+    {
+  
+        $scope.jsonRecordsAry=[];
+        $scope.selObj;
+        $scope.doFetchdata=function()
+        {
+            let url="/angular-provfetch-data";
+            $http.get(url).then(success,errors);
+            function success(response)
+            {
+                $scope.jsonRecordsAry=response.data;
+            }
+            function errors(response)
+            {
+                alert(response.data);
+            }
+        }
+      
+      
+      $scope.doShowDetails=function(index)
+      {
+         
+              $scope.selObj=$scope.jsonRecordsAry[index];
+
+      }
+      //-----------------------------------Fetching Distinct passwords-------------
+      $scope.doFetchDistinctLocation=function()
+      {
+          let url="/angular-fetch-distinct-location";
+          $http.get(url).then(success,errors);
+          function success(response)
+          {
+              $scope.jsonLocationAry=response.data;
+             //alert(JSON.stringify($scope.jsonLocationAry)); 
+          }
+          function errors(response)
+          {
+              alert(response.data);
+          }
+      }
+      //============================
+    $scope.doShowSelLocation=function()
+    {
+      
+      
+      let url="/fetch-one-record?location="+$scope.sellocation.location;
+      $http.get(url).then(success,errors);
+          function success(response)
+          {
+              $scope.jsonRecordsAry=response.data;
+          }
+          function errors(response)
+          {
+              alert(response.data);
+          }
+
+    }
+    $scope.doFetchDistinctCategory=function()
+    {
+        let url="/angular-fetch-distinct-category";
+        $http.get(url).then(success,errors);
+        function success(response)
+        {
+            $scope.jsonCategoryAry=response.data;
+           //alert(JSON.stringify($scope.jsonLocationAry)); 
+        }
+        function errors(response)
+        {
+            alert(response.data);
+        }
+    }
+    
+  $scope.doShowSelCategory=function()
+    {
+      
+      
+      let url="/fetch-both-record?category="+$scope.selcategory.category+ "&location=" + $scope.sellocation.location;
+      $http.get(url).then(success,errors);
+          function success(response)
+          {
+              $scope.jsonRecordsAry=response.data;
+          }
+          function errors(response)
+          {
+              alert(response.data);
+          }
+
+    }
+  })
+  
+    </script>
+</head>
+<body ng-app="myModule" ng-controller="myController" ng-init="doFetchdata();doFetchDistinctLocation();doFetchDistinctCategory();">
+  <div class="row">
+  <nav class="navbar bg-body-tertiary">
+    <div class="container-fluid"style="background-color:coral;">
+     <mark> <a class="navbar-brand">Service provider Search</a></mark>
+      <form class="d-flex" role="search" style="margin-right:700px;">
+        <select ng-options="obj.location for obj in jsonLocationAry" ng-model="sellocation" ng-change="doShowSelLocation();" >
+          <option value="">Select Location</option>
+       </select>
+       <form class="d-flex" role="search">
+        <select ng-options="obj.category  for obj in jsonCategoryAry" ng-model="selcategory" ng-change="doShowSelCategory();" >
+          <option value="">Select Category</option>
+       </select>
+      </div>
+      <div style="background-color:lightblue;">
+        <div class="row">
+          
+          <div class="col-sm-4" ng-repeat="obj in jsonRecordsAry">
+          <div class="card" style="width: 18rem;margin:150px">
+              <img ng-src="uploads/{{obj.proofpic}}" class="card-img-top" alt="No pic uploaded" style="height: 220px;width:280px" >
+              <div class="card-body">
+                <h5 class="card-title">Name:{{obj.nam}}</h5>
+                <p class="card-text">Contact:{{obj.contact}}</p>
+                <p class="card-text">ID No.:{{$index}}</p>
+                <button
+              type="button"
+              class="btn btn-outline-success"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+              ng-click="doShowDetails($index)"
+            >
+              Show Full Information
+            </button>
+            <div
+              class="modal fade"
+              id="staticBackdrop"
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabindex="-1"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            ></div>
+            <div
+              class="modal fade"
+              id="exampleModal"
+              tabindex="-1"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                      Full Information
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="col-md-12">
+                      <label for="email" class="form-label"
+                        >Email:{{selObj.emailid}} </label>
+                    
+                    <div class="col-md-12">
+                      <label for="name" class="form-label">Name:{{selObj.nam}}</label>
+
+                      <div class="col-md-12">
+                        <label for="ncontact" class="form-label">Contact:{{selObj.contact}}</label>
+
+                        <div class="col-md-12">
+                          <label for="gender" class="form-label">Gender:{{selObj.gender}}</label>
+
+
+                            <div class="col-md-12">
+                              <label for="category" class="form-label">Category:{{selObj.category}}</label>
+
+                              <div class="col-md-12">
+                                <label for="firm" class="form-label">Firm:{{selObj.firm}}</label>
+
+                                <div class="col-md-12">
+                                  <label for="website" class="form-label">Website:{{selObj.website}}</label>
+
+                                  <div class="col-md-12">
+                                    <label for="location" class="form-label">Location:{{selObj.location}}</label>
+
+                                    <div class="col-md-12">
+                                      <label for="since" class="form-label">Since:{{selObj.since}}</label>
+
+                                      <div class="col-md-12">
+                                        <label for="otherinfo" class="form-label">Otherinfo:{{selObj.otherinfo}}</label>
+                    </div>
+              </div>
+            </div>
+            </div> 
+          </div>       
+    </div>
+  </nav>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Service Dashboard</title>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script>
+      $(document).ready(function () {
+        $("#btn").click(function () {
+          let obj = {
+            url: "/changes",
+            data: {
+              emaiL: $("#txtemail").val(),
+              opass: $("#txtpwd").val(),
+              pass: $("#txtnewpwd").val(),
+            },
+          };
+          $.ajax(obj)
+            .done(function (resp) {
+              alert(resp);
+            })
+            .fail(function (err) {
+              alert("Error=" + err);
+            });
+        });
+      });
+      $(document).ready(function(){
+        $("#logout").click(function(){
+          localStorage.removeItem("user");
+          location.href="Signup"
+        })
+      })
+    </script>
+  </head>
+  <body style="background-color: #e3f0e2">
+    <nav class="navbar" style="background-color: #1c1896">
+      <div class="container-fluid justify-content-end">
+        <div style="margin-right: 15%; width: 65%">
+          <center>
+            <marquee
+              bgcolor="#1c1896"
+              scrollamount="10"
+              scrolldelay="10"
+              onmouseout="start()"
+              onmouseover="stop()"
+            >
+              <font size="20" color="red" face="Edwardian Script ITC"
+                >Service Provider Dashboard</font
+              >
+            </marquee>
+          </center>
+        </div>
+        <button type="button" class="btn btn-danger" style="justify-content: end; width:90px" id="logout">Logout</button>
+      </div>
+    </nav>
+
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card" style="width: 18rem; margin: 70px">
+          <img
+            src="https://img.freepik.com/premium-vector/man-avatar-profile-round-icon_24640-14044.jpg"
+            class="card-img-top"
+            alt="..."
+          />
+          <div class="card-body">
+            <h5 class="card-title">Profile</h5>
+            <p class="card-text">Jump into Profile.</p>
+            <a href="/provprofile" class="btn btn-primary">Profile</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card" style="width: 18rem; margin: 70px">
+          <img
+            src="https://w7.pngwing.com/pngs/412/756/png-transparent-man-sitting-in-front-of-monitor-job-to-find-a-job-india-employment-office-thumbnail.png"
+            class="card-img-top"
+            alt="..."
+          />
+          <div class="card-body">
+            <h5 class="card-title">Find Job</h5>
+            <p class="card-text">Jump into Find Job.</p>
+            <a href="/findjob" class="btn btn-primary">Find Job</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="card" style="width: 18rem; margin: 70px">
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1mDDnJhUrb8H1v1r5r3RrHEeZB0j8cyHTaEpOZAAc-Q&s"
+            class="card-img-top"
+            alt="..."
+          />
+          <div class="card-body">
+            <h5 class="card-title">Settings</h5>
+            <p class="card-text">Wanna change your password</p>
+            <a
+              class="btn btn-primary"
+              class="btn btn-outline-info"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal2"
+              >Visit</a
+            >
+          </div>
+          <div
+            class="modal fade"
+            id="staticBackdrop1"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel1"
+            aria-hidden="true"
+          ></div>
+          <div
+            class="modal fade1"
+            id="exampleModal2"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel1"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel2">
+                    Settings
+                  </h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label for="txtemail" class="form-label">Email</label>
+                      <input type="text" class="form-control" id="txtemail" />
+                    </div>
+                  </div>
+
+                  <div class="col-md-12">
+                    <label for="txtpwd" class="form-label">Old Password</label>
+                    <input type="text" class="form-control" id="txtpwd" />
+                  </div>
+
+                  <div class="col-md-12">
+                    <label for="txtnewpwd" class="form-label"
+                      >New Password</label
+                    >
+                    <input type="text" class="form-control" id="txtnewpwd" />
+                  </div>
+                  <div class="mt-5 text-center">
+                    <button
+                      class="btn btn-primary profile-button"
+                      type="button"
+                      id="btn"
+                    >
+                      Change password
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

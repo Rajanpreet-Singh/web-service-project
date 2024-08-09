@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+      body {
+        background: rgb(99, 39, 120);
+      }
+
+      .form-control:focus {
+        box-shadow: none;
+        border-color: #ba68c8;
+      }
+
+      .profile-button {
+        background: rgb(99, 39, 120);
+        box-shadow: none;
+        border: none;
+      }
+
+      .profile-button:hover {
+        background: #682773;
+      }
+
+      .profile-button:focus {
+        background: #682773;
+        box-shadow: none;
+      }
+
+      .profile-button:active {
+        background: #682773;
+        box-shadow: none;
+      }
+
+      .back:hover {
+        color: #682773;
+        cursor: pointer;
+      }
+
+      .labels {
+        font-size: 11px;
+      }
+
+      .add-experience:hover {
+        background: #ba68c8;
+        color: #fff;
+        cursor: pointer;
+        border: solid 1px #ba68c8;
+      }
+    </style>
+    <script>
+      function doShowPrev(refFile, refImg) {
+        const [file] = refFile.files;
+        if (file) {
+          refImg.src = URL.createObjectURL(file);
+        }
+      }
+      $(document).ready(function () {
+        $("#Search").click(function () {
+          let obj = {
+            url: "/fetch",
+            data: {
+              searchemail: $("#txtemail").val(),
+            },
+          };
+
+          $.ajax(obj)
+            .done(function (respJsonAry) {
+              // alert(JSON.stringify(respJsonAry));
+              $("#txtfname").val(respJsonAry[0].firstname); //use table col
+              $("#txtlname").val(respJsonAry[0].lastname);
+              $("#txtcnum").val(respJsonAry[0].contact);
+              $("#txtaddress").val(respJsonAry[0].address);
+              $("#txtcity").val(respJsonAry[0].city);
+              $("#txtstate").val(respJsonAry[0].state);
+              $("#txtcountry").val(respJsonAry[0].country);
+              $("#ppic").prop("src", "images/" + respJsonAry[0].ppic);
+            })
+            .fail(function (err) {
+              alert(err);
+            });
+        });
+
+        $("#btn").click(function () {
+          let obj = {
+            url: "/profilesave",
+            data: {
+              email: $("#txtemail").val(),
+              firstname: $("#txtfname").val(),
+              lastname: $("#txtlname").val(),
+              contactnumber: $("#txtcnum").val(),
+              address: $("#txtaddress").val(),
+              city: $("#txtcity").val(),
+              state: $("#txtstate").val(),
+              country: $("#txtcountry").val(),
+              ppic: $("#ppic").val(),
+            },
+          };
+          $.ajax(obj)
+            .done(function (resp) {
+              alert(resp);
+            })
+            .fail(function (err) {
+              alert("Error=" + err);
+            });
+        });
+      });
+      $(document).ready(function () {
+        $("#rules").click(function () {
+          if ($("#btn").prop("disabled") == false)
+            $("#btn").prop("disabled", true);
+          else $("#btn").attr("disabled", false);
+        });
+      });
+    </script>
+    <script>
+      function fetchuser() {
+        let activeUser = localStorage.getItem("user");
+        document.querySelector("#txtemail").value = activeUser;
+      }
+    </script>
+  </head>
+  <body onload="fetchuser();">
+    <div class="container rounded bg-white mt-5 mb-5">
+      <div class="row">
+        <div class="col-md-3 border-right">
+          <div
+            class="d-flex flex-column align-items-center text-center p-3 py-5"
+          >
+            <img
+              class="rounded-circle mt-5"
+              width="150px"
+              src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
+            /><span class="font-weight-bold">Profile</span
+            ><span class="text-black-50"></span>
+          </div>
+        </div>
+        <div class="col-md-5 border-right">
+          <div class="p-3 py-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h4 class="text-right">CUSTOMER PROFILE</h4>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-12">
+                <label for="txtemail" label class="labels">Email-ID</label
+                ><input
+                  type="text"
+                  class="form-control"
+                  placeholder="Email-ID"
+                  id="txtemail"
+                  disabled
+                /><button
+                  type="button"
+                  class="btn btn-outline-info"
+                  data-bs-toggle="modal"
+                  data-bs-target="#"
+                  name="Search"
+                  id="Search"
+                >
+                  Search
+                </button>
+              </div>
+              <div class="col-md-12">
+                <label for="txtfname" label class="labels">First Name</label
+                ><input
+                  type="text"
+                  class="form-control"
+                  placeholder="First Name"
+                  id="txtfname"
+                  required
+                />
+              </div>
+              <div class="col-md-12">
+                <label for="txtlname" label class="labels">Last Name</label
+                ><input
+                  type="text"
+                  class="form-control"
+                  id="txtlname"
+                  placeholder="Last Name"
+                  required
+                />
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <label for="txtcnum" label class="labels">Contact Number</label
+                ><input
+                  type="text"
+                  class="form-control"
+                  placeholder="Enter phone number"
+                  maxlength="10"
+                  id="txtcnum"
+                  required
+                />
+              </div>
+
+              <div class="col-md-12">
+                <label for="txtaddress" label class="labels">Address</label
+                ><input
+                  type="text"
+                  class="form-control"
+                  placeholder="Enter address"
+                  id="txtaddress"
+                  required
+                />
+              </div>
+              <div class="col-md-12">
+                <label for="txtstate" label class="labels">State</label
+                ><input
+                  type="text"
+                  class="form-control"
+                  placeholder="Enter state"
+                  id="txtstate"
+                  required
+                />
+              </div>
+              <div class="col-md-12">
+                <label for="txtcity" label class="labels">City</label
+                ><input
+                  type="text"
+                  class="form-control"
+                  placeholder="Enter city"
+                  id="txtcity"
+                  required
+                />
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-md-12">
+                  <label for="txtcountry" label class="labels">Country</label
+                  ><input
+                    type="text"
+                    class="form-control"
+                    placeholder="Country"
+                    id="txtcountry"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <label for="ppic" label class="labels">
+                    Upload Profile Pic: </label
+                  ><input
+                    type="file"
+                    id="ppic"
+                    name="ppic"
+                    onchange="doShowPrev(this,prev);"
+                  />
+                </div>
+              </div>
+              <br />
+              <img src="" alt="" id="prev" width="50" height="250" />
+              <div class="row mt-3">
+                <div class="col-md-12">
+                  <input type="checkbox" id="rules" />Click to accept Rules and
+                  Regulations
+                </div>
+                <div class="mt-5 text-center">
+                  <button
+                    class="btn btn-primary profile-button"
+                    type="button"
+                    id="btn"
+                    disabled
+                  >
+                    Save Profile
+                  </button>
+                </div>
+                <div class="mt-2 text-center">
+                  <button class="btn btn-primary modify-button" type="reset">
+                    Modify
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
